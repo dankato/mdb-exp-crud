@@ -5,10 +5,14 @@ const MongoClient = require('mongodb').MongoClient;
 const port = 3000;
 const app = express();
 const dburl = 'dburl-goes-here';
+
 let db;
 
 // extract data from <form> into the body property in the req object
 app.use(bodyParser.urlencoded({extended: true}));
+
+// template engine, setting express to ejs
+app.set('view engine', 'ejs');
 
 // connect to server
 MongoClient.connect(dburl, (error, client) => {
@@ -41,6 +45,7 @@ app.post('/quotes', (req, res) => {
 app.get('/', (req, res) =>  {
     db.collection('crud-quotes').find().toArray(function(err, results) {
         console.log(results)
-        // send HTML file populated with quotes here
+        // rendering ejs (file we are rendering, object that passes data into view)
+        res.render('index.ejs', {quotes: results});
       })
 })

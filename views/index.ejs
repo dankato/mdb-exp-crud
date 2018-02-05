@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Node-Crud</title>
+</head>
+<body>
+    <p>Node can be complex, express was built to simplify creation. Coming up next, a simple list.</p>
+    <!-- looping through the quotes array and creating strings with name and quote -->
+    <ul class="quotes">
+        <% for(let i = 0; i<quotes.length; i++) {%>
+            <li class="quote">
+                <span><%= quotes[i].name %></span>
+                <span><%= quotes[i].quote %></span>
+            </li>
+        <% } %>
+    </ul>
+
+    <form action="/items" method="POST">
+        <input type="text" placeholder="name" name="name">
+        <input type="text" placeholder="quote" name="quote">
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
