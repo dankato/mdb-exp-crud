@@ -5,7 +5,6 @@ const MongoClient = require('mongodb').MongoClient;
 const port = 3000;
 const app = express();
 const dburl = 'dburl-goes-here';
-
 let db;
 
 // extract data from <form> into the body property in the req object
@@ -24,10 +23,10 @@ MongoClient.connect(dburl, (error, client) => {
 });
 
 // READ (path, callback)
-app.get('/', (req, res) => {
-    console.log('Get it!');
-    res.sendFile(__dirname + '/index.html');
-});
+// app.get('/', (req, res) => {
+//     // console.log('Get it!');
+//     res.sendFile(__dirname + '/index.html');
+// });
 
 // CREATE
 app.post('/quotes', (req, res) => {
@@ -37,3 +36,11 @@ app.post('/quotes', (req, res) => {
         res.redirect('/');
     });
 });
+
+// GET (find quotes, get cursor(mongo object) in return)
+app.get('/', (req, res) =>  {
+    db.collection('crud-quotes').find().toArray(function(err, results) {
+        console.log(results)
+        // send HTML file populated with quotes here
+      })
+})
