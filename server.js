@@ -4,15 +4,17 @@ const MongoClient = require('mongodb').MongoClient;
 
 const port = 3000;
 const app = express();
-const dburl = 'dburl-goes-here';
+// const dburl = 'dburl-goes-here';
 
 let db;
 
-// extract data from <form> into the body property in the req object
-app.use(bodyParser.urlencoded({extended: true}));
-
 // template engine, setting express to ejs
 app.set('view engine', 'ejs');
+// extract data from <form> into the body property in the req object
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static('public'));
+// server does not read json, so this is where body-parser come in
+app.use(bodyParser.json());
 
 // connect to server
 MongoClient.connect(dburl, (error, client) => {
@@ -49,3 +51,26 @@ app.get('/', (req, res) =>  {
         res.render('index.ejs', {quotes: results});
       })
 })
+
+// PUT
+app.put('/quotes', (req, res) => {
+    db.collection('crud-quotes').findOneAndUpdate({
+        name: 'bob'
+    }, {
+        $set: {
+            name: req.body.name,
+            quote: req.body.quote
+        }
+    }, {
+        sort: {_id: -1},
+        upsert: true
+    }, (error, result) => {
+        if(error) return res.send(error)
+        res.send(result)
+    })
+})
+
+        // query, // to filter the collection through key-value pairs
+        // update, // the cmd to tell mongo what to do with the req
+        // options, // define additonal params
+        // callback // once teh req come in, what to do next
