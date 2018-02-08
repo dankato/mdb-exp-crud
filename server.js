@@ -74,3 +74,13 @@ app.put('/quotes', (req, res) => {
         // update, // the cmd to tell mongo what to do with the req
         // options, // define additonal params
         // callback // once teh req come in, what to do next
+
+// DELETE
+app.delete('/quotes', (req, res) => {
+    console.log('delete clicked');
+    db.collection('crud-quotes').findOneAndDelete({name: req.body.name},
+    (error, result) => {
+        if(error) return res.send(500, error)
+        res.send({message: 'Quote deleted.'})
+    })
+})

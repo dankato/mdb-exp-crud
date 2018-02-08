@@ -1,5 +1,6 @@
 
 const update = document.getElementById('update-button');
+const del = document.getElementById('delete-button');
 
 update.addEventListener('click', function () {
     console.log('clicked')
@@ -17,5 +18,25 @@ update.addEventListener('click', function () {
     })
     .then(data => {
         console.log(data)
+    })
+})
+
+del.addEventListener('click', function() {
+    console.log('i clicked delete from main.');
+    fetch('quotes', {
+        method: 'delete',
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify({
+            'name': 'jan'
+        })
+    })
+    .then(res => {
+        if(res.ok) return res.json()
+    })
+    .then(data => {
+        console.log(data)
+        window.location.reload()
     })
 })
